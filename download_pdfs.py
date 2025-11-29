@@ -191,3 +191,7 @@ print("完了しました。")
 #####
 pip install openpyxl
 pip install requests
+
+pip install --no-index --find-links=. et_xmlfile-1.1.0-py3-none-any.whl
+pip install --no-index --find-links=. openpyxl-3.1.2-py2.py3-none-any.whl
+pip install --no-index --find-links=. requests-2.32.3-py3-none-any.whl
