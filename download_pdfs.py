@@ -174,3 +174,39 @@ merger.close()
 print("✅ 結合完了！")
 print("出力先:", OUTPUT_PDF)
 
+from pathlib import Path
+from pypdf import PdfReader, PdfWriter
+
+# === 設定 ===
+INPUT_DIR  = r"C:\Users\Public\Documents\阿部\pdfs"   # PDFが入っているフォルダ
+OUTPUT_PDF = r"C:\Users\Public\Documents\阿部\merged.pdf"  # 出力ファイル
+
+def merge_pdfs(input_dir: str, output_pdf: str):
+    input_path = Path(input_dir)
+    writer = PdfWriter()
+
+    # フォルダ内のPDFをソートして取得
+    pdf_files = sorted(input_path.glob("*.pdf"))
+    if not pdf_files:
+        print("フォルダにPDFがありません")
+        return
+
+    print("結合対象ファイル:")
+    for p in pdf_files:
+        print(" -", p.name)
+
+    # 1ファイルずつ読み込んでページを追加
+    for pdf in pdf_files:
+        reader = PdfReader(str(pdf))
+        for page in reader.pages:
+            writer.add_page(page)
+
+    # 1本のPDFとして書き出し
+    with open(output_pdf, "wb") as f:
+        writer.write(f)
+
+    print("完了しました。出力ファイル:", output_pdf)
+
+if __name__ == "__main__":
+    merge_pdfs(INPUT_DIR, OUTPUT_PDF)
+
