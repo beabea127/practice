@@ -1,4 +1,4 @@
-from openpyxl import load_workbook
+ゆfrom openpyxl import load_workbook
 
 # === 設定 ===
 excel_path = r"C:\Users\Suguru Abe\Desktop\your_file.xlsx"  # Excelファイルのパス
@@ -146,4 +146,31 @@ merger.write(str(OUTPUT_PDF))
 merger.close()
 
 print("✅ 結合完了:", OUTPUT_PDF)
+
+from pathlib import Path
+from pypdf import PdfMerger
+
+# ===== 設定 =====
+PDF_FOLDER = r"C:\Users\Suguru Abe\Desktop\pdfs"   # PDFが入っているフォルダ
+OUTPUT_PDF = r"C:\Users\Suguru Abe\Desktop\all_merged.pdf"  # 出力ファイル名
+# =================
+
+pdf_dir = Path(PDF_FOLDER)
+pdf_files = sorted(pdf_dir.glob("*.pdf"))  # フォルダ内のPDFをすべて取得（名前順）
+
+if not pdf_files:
+    print("PDFが見つかりません")
+    exit()
+
+merger = PdfMerger()
+
+for pdf in pdf_files:
+    print(f"追加中: {pdf.name}")
+    merger.append(str(pdf))
+
+merger.write(OUTPUT_PDF)
+merger.close()
+
+print("✅ 結合完了！")
+print("出力先:", OUTPUT_PDF)
 
