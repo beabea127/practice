@@ -125,3 +125,25 @@ pip install --no-index --find-links=. requests-2.32.3-py3-none-any.whl
 pip install --no-index --find-links=. charset_normalizer-3.3.2-py3-none-any.whl
 pip install --no-index --find-links=. idna-3.7-py3-none-any.whl
 pip install --no-index --find-links=. requests-2.32.3-py3-none-any.whl
+
+from pathlib import Path
+from pypdf import PdfMerger
+
+# === 設定 ===
+PDF_DIR = Path(r"C:\Users\Suguru Abe\Desktop\downloaded_pdfs")  # PDFが入っているフォルダ
+OUTPUT_PDF = Path(r"C:\Users\Suguru Abe\Desktop\merged.pdf")   # 出力PDF
+
+merger = PdfMerger()
+
+# フォルダ内のPDFを名前順で結合
+pdf_files = sorted(PDF_DIR.glob("*.pdf"))
+
+for pdf in pdf_files:
+    print("追加:", pdf.name)
+    merger.append(str(pdf))
+
+merger.write(str(OUTPUT_PDF))
+merger.close()
+
+print("✅ 結合完了:", OUTPUT_PDF)
+
